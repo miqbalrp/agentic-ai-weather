@@ -1,14 +1,14 @@
 # Agentic AI Weather
 
 ## Overview
-Agentic AI Weather is a collection of Python scripts and modules designed to demonstrate various agentic AI patterns and tools. The project includes examples of single-agent systems, multi-agent systems, tool usage, and handoff mechanisms. It also provides utilities for reasoning, research, and real-time applications.
+Agentic AI Weather is a collection of Python scripts and modules designed to demonstrate a step-by-step learning on multi-agent systems using the OpenAI Agents SDK framework. This repository serves as a complementary resource to an upcoming article published by the author. The project includes examples of single-agent systems, multi-agent systems, tool usage, and handoff mechanisms, utilizing the use case of a helpful weather assistant that retrieves data from publicly accessible APIs.
 
 ## Project Structure
 
 - **01-single-agent.py**: Example of a single-agent system.
 - **02-single-agent-app.py**: Application demonstrating a single-agent system.
-- **03-tooluse-agent.py**: Example of an agent utilizing tools.
-- **04-handoff-agent.py**: Demonstrates agent handoff mechanisms.
+- **03-tooluse-agent-app.py**: Example of an agent utilizing tools.
+- **04-handoff-agent-app.py**: Demonstrates agent handoff mechanisms.
 
 ## Requirements
 
@@ -39,7 +39,7 @@ pip install -r requirements.txt
 Run any of the Python scripts to explore the functionality. For example:
 
 ```zsh
-python 04-handoff-agent.py
+python 04-handoff-agent-app.py
 ```
 
 ## Contributing
