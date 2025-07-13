@@ -1,0 +1,11 @@
+# dotenv files
+.env
+
+# virtual environment
+venv/
+
+# documentation examples
+documentation-examples/
+
+# macOS
+.DS_Store
