@@ -79,31 +79,36 @@ air_quality_specialist_agent = Agent(
     tool_use_behavior="run_llm_again"
 )
 
-triage_agent = Agent(
-    name="Triage Agent",
+orchestrator_agent = Agent(
+    name="Orchestrator Agent",
     instructions="""
-    You are a triage agent.
-    Your task is to determine which specialist agent (Weather Specialist or Air Quality Specialist) is best suited to handle the user's query based on the content of the question.
-
-    For each query, analyze the input and decide:
-    - If the query is about weather conditions, route it to the Weather Specialist Agent.
-    - If the query is about air quality, route it to the Air Quality Specialist Agent.
-    - If the query is ambiguous or does not fit either category, provide a clarification request.
+    You are an orchestrator agent.
+    Your task is to manage the interaction between the Weather Specialist Agent and the Air Quality Specialist Agent.
+    You will receive a query from the user and will decide which agent to invoke based on the content of the query.
+    If both weather and air quality information is requested, you will invoke both agents and conclude their responses.
     """,
-    handoffs=[weather_specialist_agent, air_quality_specialist_agent]
+    tools=[
+        weather_specialist_agent.as_tool(
+            tool_name="get_weather_update",
+            tool_description="Get current weather information and suggestion including temperature, humidity, wind speed and direction, precipitation, and weather codes."
+        ),
+        air_quality_specialist_agent.as_tool(
+            tool_name="get_air_quality_update",
+            tool_description="Get current air quality information and suggestion including pollutants and their levels."
+        )
+    ]
 )
 
-def main():
-    st.title("Weather and Air Quality Assistant")
-    user_input = st.text_input("Enter your query about weather or air quality:")
-
+async def main():
+    st.title("Weather and Air Quality Information")
+    query = st.text_input("Enter your query about weather or air quality:")
+    
     if st.button("Get Update"):
-        with st.spinner("Thinking..."):
-            if user_input:
-                result = asyncio.run(Runner.run(triage_agent, user_input))
-                st.write(result.final_output)
-            else:
-                st.write("Please enter a question about the weather or air quality.")
+        if query:
+            result = await Runner.run(orchestrator_agent, input=query)
+            st.write(result.final_output)
+        else:
+            st.warning("Please enter a query.")
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
