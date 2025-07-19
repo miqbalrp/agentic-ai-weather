@@ -1,15 +1,18 @@
 from agents import Agent, Runner
 import asyncio
-
-from dotenv import load_dotenv
-load_dotenv()
-
 import streamlit as st
+from dotenv import load_dotenv
+
+load_dotenv()
 
 agent = Agent(
     name="Weather Assistant",
-    instructions="You provide weather updates and forecasts."
+    instructions="You provide accurate and concise weather updates based on user queries in plain language."
 )
+
+async def run_agent(user_input: str):
+    result = await Runner.run(agent, user_input)
+    return result.final_output
 
 def main():
     st.title("Weather Assistant")
@@ -18,8 +21,8 @@ def main():
     if st.button("Get Weather Update"):
         with st.spinner("Thinking..."):
             if user_input:
-                result = asyncio.run(Runner.run(agent, user_input))
-                st.write(result.final_output)
+                agent_response = asyncio.run(run_agent(user_input))
+                st.write(agent_response)
             else:
                 st.write("Please enter a question about the weather.")
 

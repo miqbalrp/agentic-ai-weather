@@ -6,12 +6,12 @@ load_dotenv()
 
 agent = Agent(
     name="Weather Assistant",
-    instructions="You provide weather updates and forecasts."
+    instructions="You provide accurate and concise weather updates based on user queries in plain language."
 )
 
-async def main():
+async def run_agent():
     result = await Runner.run(agent, "What's the weather like today in Jakarta?")
     print(result.final_output)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(run_agent())
