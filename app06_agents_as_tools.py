@@ -1,11 +1,10 @@
 from agents import Agent, Runner, function_tool
 import asyncio
+import streamlit as st
+from dotenv import load_dotenv
 import requests
 
-from dotenv import load_dotenv
 load_dotenv()
-
-import streamlit as st
 
 @function_tool
 def get_current_weather(latitude: float, longitude: float) -> dict:
@@ -85,7 +84,7 @@ orchestrator_agent = Agent(
     You are an orchestrator agent.
     Your task is to manage the interaction between the Weather Specialist Agent and the Air Quality Specialist Agent.
     You will receive a query from the user and will decide which agent to invoke based on the content of the query.
-    If both weather and air quality information is requested, you will invoke both agents and conclude their responses.
+    If both weather and air quality information is requested, you will invoke both agents and combine their responses into one clear answer.
     """,
     tools=[
         weather_specialist_agent.as_tool(
@@ -96,19 +95,25 @@ orchestrator_agent = Agent(
             tool_name="get_air_quality_update",
             tool_description="Get current air quality information and suggestion including pollutants and their levels."
         )
-    ]
+    ],
+    tool_use_behavior="run_llm_again"
 )
 
-async def main():
-    st.title("Weather and Air Quality Information")
-    query = st.text_input("Enter your query about weather or air quality:")
-    
+async def run_agent(user_input: str):
+    result = await Runner.run(orchestrator_agent, user_input)
+    return result.final_output
+
+def main():
+    st.title("Weather and Air Quality Assistant")
+    user_input = st.text_input("Enter your query about weather or air quality:")
+
     if st.button("Get Update"):
-        if query:
-            result = await Runner.run(orchestrator_agent, input=query)
-            st.write(result.final_output)
-        else:
-            st.warning("Please enter a query.")
+        with st.spinner("Thinking..."):
+            if user_input:
+                agent_response = asyncio.run(run_agent(user_input))
+                st.write(agent_response)
+            else:
+                st.write("Please enter a question about the weather or air quality.")
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()

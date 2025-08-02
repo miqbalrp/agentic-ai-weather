@@ -1,11 +1,10 @@
 from agents import Agent, Runner, function_tool
 import asyncio
+import streamlit as st
+from dotenv import load_dotenv
 import requests
 
-from dotenv import load_dotenv
 load_dotenv()
-
-import streamlit as st
 
 @function_tool
 def get_current_weather(latitude: float, longitude: float) -> dict:
@@ -93,6 +92,10 @@ triage_agent = Agent(
     handoffs=[weather_specialist_agent, air_quality_specialist_agent]
 )
 
+async def run_agent(user_input: str):
+    result = await Runner.run(triage_agent, user_input)
+    return result.final_output
+
 def main():
     st.title("Weather and Air Quality Assistant")
     user_input = st.text_input("Enter your query about weather or air quality:")
@@ -100,8 +103,8 @@ def main():
     if st.button("Get Update"):
         with st.spinner("Thinking..."):
             if user_input:
-                result = asyncio.run(Runner.run(triage_agent, user_input))
-                st.write(result.final_output)
+                agent_response = asyncio.run(run_agent(user_input))
+                st.write(agent_response)
             else:
                 st.write("Please enter a question about the weather or air quality.")
 
