@@ -5,13 +5,23 @@ Agentic AI Weather is a collection of Python scripts and modules designed to dem
 
 ### Published Articles
 - [Hands-on with Agents SDK: Your First API-calling Agent](https://towardsdatascience.com/hands%e2%80%91on-with-agents-sdk-your-first-api%e2%80%91calling-agent/)
+- [Hands-On with Agents SDK: Multi-Agent Collaboration
+](https://towardsdatascience.com/hands-on-with-agents-sdk-multi-agent-collaboration/)
 
 ## Project Structure
 
-- **01-single-agent.py**: Example of a single-agent system.
-- **02-single-agent-app.py**: Application demonstrating a single-agent system.
-- **03-tooluse-agent-app.py**: Example of an agent utilizing tools.
-- **04-handoff-agent-app.py**: Demonstrates agent handoff mechanisms.
+### Core Applications
+- **app01_single_agent.py**: Example of a single-agent system.
+- **app02_single_agent.py**: Streamlit application demonstrating a single-agent system.
+- **app03_tooluse_agent.py**: Example of an agent utilizing external API tools.
+- **app04_basic_handoff.py**: Demonstrates basic agent handoff mechanisms between specialists.
+- **app05_customized_handoff.py**: Advanced handoff with custom callbacks and structured data.
+- **app06_agents_as_tools.py**: Shows how to use agents as tools within an orchestrator pattern.
+- **app07_customized_agents_as_tools.py**: Customized agents-as-tools implementation with async wrappers.
+
+### Additional Files
+- **app.py**: Main Streamlit application entry point.
+- **visualize_agents.py**: Utility for visualizing agent interactions.
 
 ## Getting Started
 
@@ -34,7 +44,15 @@ Agentic AI Weather is a collection of Python scripts and modules designed to dem
 Run any of the Python scripts to explore the functionality. For example:
 
 ```zsh
-python 04-handoff-agent-app.py
+# Run the main Streamlit app
+streamlit run app.py
+
+# Or run individual examples
+python app04_basic_handoff.py
+python app06_agents_as_tools.py
+
+# Run the agent visualization tool
+python visualize_agents.py
 ```
 
 ## Contributing
