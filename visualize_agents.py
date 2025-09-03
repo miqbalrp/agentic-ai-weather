@@ -5,15 +5,17 @@
 # Check documentation for more details: https://openai.github.io/openai-agents-python/visualization/
 
 from agents.extensions.visualization import draw_graph
-from app01_single_agent import *
-from app03_tooluse_agent import *
-from app04_basic_handoff import *
-from app06_agents_as_tools import *
+import app01_single_agent
+import app03_tooluse_agent
+import app04_basic_handoff
+import app06_agents_as_tools 
+import app08_guardrails 
 
 agents = [
-    weather_specialist_agent,
-    triage_agent,
-    orchestrator_agent
+    app03_tooluse_agent.weather_specialist_agent,
+    app04_basic_handoff.triage_agent,
+    app06_agents_as_tools.orchestrator_agent,
+    app08_guardrails.orchestrator_agent
 ]
 
 dir = "assets/graphs/"
